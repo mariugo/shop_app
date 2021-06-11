@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '/models/product.dart';
 
-class ProductsProvider with ChangeNotifier {
+class Products with ChangeNotifier {
+  bool _showFavortesOnly = false;
+
   List<Product> _items = [
     Product(
       id: 'p1',
@@ -40,7 +42,11 @@ class ProductsProvider with ChangeNotifier {
 
   List<Product> get items => [..._items];
 
-  Product findById(String id) {
+  List<Product> get favoriteItems {
+    return _items.where((productItem) => productItem.isFavorite).toList();
+  }
+
+  Product findById(String? id) {
     return _items.firstWhere((product) => product.id == id);
   }
 
