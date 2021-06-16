@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import '/providers/products.dart';
 import 'product_item_widget.dart';
 
-class ProductsGrid extends StatelessWidget {
+class ProductsGridWidget extends StatelessWidget {
   final bool showFavoriteProducts;
 
-  ProductsGrid(this.showFavoriteProducts);
+  ProductsGridWidget(this.showFavoriteProducts);
 
   @override
   Widget build(BuildContext context) {
