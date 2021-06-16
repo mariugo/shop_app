@@ -67,6 +67,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
         body: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: _formGlobalKey,
             child: ListView(
               children: [
@@ -75,6 +76,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     labelText: 'Title',
                   ),
                   textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a title';
+                    }
+                    return null;
+                  },
                   onFieldSubmitted: (_) =>
                       FocusScope.of(context).requestFocus(_priceFocusNode),
                   onSaved: (newValue) => _editedProduct = Product(
@@ -91,6 +98,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   ),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a price';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Please enter a valid number';
+                    }
+                    if (double.parse(value) <= 0) {
+                      return 'Please enter a number greater than zero';
+                    }
+                    return null;
+                  },
                   focusNode: _priceFocusNode,
                   onFieldSubmitted: (_) => FocusScope.of(context)
                       .requestFocus(_descriptionFocusNode),
@@ -109,6 +128,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    if (value.length < 10) {
+                      return 'Descrition is too short';
+                    }
+                    return null;
+                  },
                   onSaved: (newValue) => _editedProduct = Product(
                     id: '',
                     title: _editedProduct.title,
@@ -158,6 +186,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           description: _editedProduct.description,
                           imageUrl: newValue!,
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter an image URL';
+                          }
+                          if (!value.startsWith('http') &&
+                              !value.startsWith('https')) {
+                            return 'Please enter a valid URL';
+                          }
+                          return null;
+                        },
                         onFieldSubmitted: (_) {
                           _saveForm();
                         },
