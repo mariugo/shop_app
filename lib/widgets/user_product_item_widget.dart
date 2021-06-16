@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/edit_product_screen.dart';
 
 class UserProductItemWidget extends StatelessWidget {
   final String userProductItemTitle;
@@ -20,6 +21,7 @@ class UserProductItemWidget extends StatelessWidget {
           userProductUrl,
         ),
       ),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8),
       trailing: Container(
         width: 100,
         child: Row(
@@ -28,8 +30,12 @@ class UserProductItemWidget extends StatelessWidget {
               icon: Icon(
                 Icons.edit,
               ),
-              onPressed: () {},
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(EditProductScreen.routeName),
               color: Colors.orange.shade300,
+            ),
+            SizedBox(
+              width: 10,
             ),
             IconButton(
               icon: Icon(

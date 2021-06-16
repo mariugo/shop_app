@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '/models/product.dart';
 
 class Products with ChangeNotifier {
-  bool _showFavortesOnly = false;
+  //bool _showFavortesOnly = false;
 
   List<Product> _items = [
     Product(

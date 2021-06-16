@@ -17,27 +17,21 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.shop),
             title: Text('Shop'),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/');
-            },
+            onTap: () => Navigator.of(context).pushReplacementNamed('/'),
           ),
           Divider(),
           ListTile(
             leading: Icon(Icons.payment),
             title: Text('Orders'),
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(OrdersScreen.routeName);
-            },
+            onTap: () => Navigator.of(context)
+                .pushReplacementNamed(OrdersScreen.routeName),
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.manage_search),
+            leading: Icon(Icons.mode_edit),
             title: Text('Manage Products'),
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(UserProductsScreen.routeName);
-            },
+            onTap: () => Navigator.of(context)
+                .pushReplacementNamed(UserProductsScreen.routeName),
           ),
         ],
       ),
