@@ -61,4 +61,12 @@ class Products with ChangeNotifier {
     _items.add(newProduct);
     notifyListeners();
   }
+
+  void updateUproduct(String id, Product newUpdatedProduct) {
+    final productIndex = _items.indexWhere((product) => product.id == id);
+    if (productIndex >= 0) {
+      _items[productIndex] = newUpdatedProduct;
+      notifyListeners();
+    }
+  }
 }
