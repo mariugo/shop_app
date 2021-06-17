@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/screens/edit_product_screen.dart';
 
 class UserProductItemWidget extends StatelessWidget {
+  final String productId;
   final String userProductItemTitle;
   final String userProductUrl;
 
   UserProductItemWidget({
+    required this.productId,
     required this.userProductItemTitle,
     required this.userProductUrl,
   });
@@ -30,8 +32,10 @@ class UserProductItemWidget extends StatelessWidget {
               icon: Icon(
                 Icons.edit,
               ),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(EditProductScreen.routeName),
+              onPressed: () => Navigator.of(context).pushNamed(
+                EditProductScreen.routeName,
+                arguments: productId,
+              ),
               color: Colors.orange.shade300,
             ),
             SizedBox(
