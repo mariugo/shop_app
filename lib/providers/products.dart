@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/models/http_exception.dart';
 
 import '/models/product.dart';
 
@@ -78,7 +79,7 @@ class Products with ChangeNotifier {
       });
       _items = loadedProducts;
       notifyListeners();
-    } on Exception catch (error) {
+    } on HttpException catch (error) {
       throw error;
     }
   }
@@ -104,32 +105,40 @@ class Products with ChangeNotifier {
       );
       _items.add(newProduct);
       notifyListeners();
-    } on Exception catch (error) {
+    } on HttpException catch (error) {
       throw error;
     }
   }
 
   Future<void> updateUproduct(String id, Product newUpdatedProduct) async {
-    final productIndex = _items.indexWhere((product) => product.id == id);
-    if (productIndex >= 0) {
-      final updateUrl = Uri.parse(
-          'https://shop-app-8c4b3-default-rtdb.firebaseio.com/products/$id.json');
-      await http.patch(updateUrl, body: {
-        'title': newUpdatedProduct.title,
-        'description': newUpdatedProduct.description,
-        'price': newUpdatedProduct.price,
-        'imageUrl': newUpdatedProduct.imageUrl,
-      });
-      _items[productIndex] = newUpdatedProduct;
-      notifyListeners();
+    try {
+      final productIndex = _items.indexWhere((product) => product.id == id);
+      if (productIndex >= 0) {
+        final updateUrl = Uri.parse(
+            'https://shop-app-8c4b3-default-rtdb.firebaseio.com/products/$id.json');
+        await http.patch(updateUrl, body: {
+          'title': newUpdatedProduct.title,
+          'description': newUpdatedProduct.description,
+          'price': newUpdatedProduct.price,
+          'imageUrl': newUpdatedProduct.imageUrl,
+        });
+        _items[productIndex] = newUpdatedProduct;
+        notifyListeners();
+      }
+    } on HttpException catch (error) {
+      throw error;
     }
   }
 
-  void deleteProduct(String id) {
-    final deleteUrl = Uri.parse(
-        'https://shop-app-8c4b3-default-rtdb.firebaseio.com/products/$id.json');
-    http.delete(deleteUrl);
-    _items.removeWhere((product) => product.id == id);
-    notifyListeners();
+  Future<void> deleteProduct(String id) async {
+    try {
+      final deleteUrl = Uri.parse(
+          'https://shop-app-8c4b3-default-rtdb.firebaseio.com/products/$id.json');
+      await http.delete(deleteUrl);
+      _items.removeWhere((product) => product.id == id);
+      notifyListeners();
+    } on HttpException catch (error) {
+      throw error;
+    }
   }
 }
