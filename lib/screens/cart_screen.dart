@@ -45,16 +45,18 @@ class CartScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextButton(
-                        onPressed: () {
-                          Provider.of<Orders>(
-                            context,
-                            listen: false,
-                          ).addOrder(
-                            cart.items.values.toList(),
-                            cart.totalAmount,
-                          );
-                          cart.clearCart();
-                        },
+                        onPressed: cart.totalAmount <= 0
+                            ? null
+                            : () {
+                                Provider.of<Orders>(
+                                  context,
+                                  listen: false,
+                                ).addOrder(
+                                  cart.items.values.toList(),
+                                  cart.totalAmount,
+                                );
+                                cart.clearCart();
+                              },
                         child: Text(
                           'ORDER NOW',
                           style: TextStyle(
