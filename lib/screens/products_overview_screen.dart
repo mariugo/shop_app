@@ -20,10 +20,15 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _showOnlyFavoritesProducts = false;
+  Future? _productsFuture;
+
+  Future _getProductsFuture() {
+    return Provider.of<Products>(context, listen: false).fetchProducts();
+  }
 
   @override
   void initState() {
-    Provider.of<Products>(context, listen: false).fetchProducts();
+    _productsFuture = _getProductsFuture();
     super.initState();
   }
 
@@ -75,7 +80,23 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ],
         ),
         drawer: DrawerWidget(),
-        body: ProductsGridWidget(_showOnlyFavoritesProducts),
+        body: FutureBuilder(
+            future: _productsFuture,
+            builder: (ctx, dataSnapshot) {
+              if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (dataSnapshot.error != null) {
+                return Center(
+                  child: Text(
+                    'An error occurred' + dataSnapshot.error.toString(),
+                  ),
+                );
+              } else {
+                return ProductsGridWidget(_showOnlyFavoritesProducts);
+              }
+            }),
       ),
     );
   }

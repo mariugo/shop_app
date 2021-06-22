@@ -65,6 +65,10 @@ class Products with ChangeNotifier {
 
       final List<Product> loadedProducts = [];
 
+      if (extractedResponse.isEmpty) {
+        return;
+      }
+
       extractedResponse.forEach((productId, productData) {
         loadedProducts.add(
           Product(
