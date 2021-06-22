@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/models/http_exception.dart';
 
+import '/models/http_exception.dart';
 import '/providers/cart.dart';
 
 class OrderItem {
@@ -34,6 +34,7 @@ class Orders with ChangeNotifier {
         url,
         body: json.encode({
           'amount': total,
+          'dateTime': dateTime.toIso8601String(),
           'products': cartProducts
               .map((cart) => {
                     'id': cart.id,
@@ -42,7 +43,6 @@ class Orders with ChangeNotifier {
                     'price': cart.price,
                   })
               .toList(),
-          'dateTime': DateTime.now().toIso8601String(),
         }),
       );
       final newOrderItem = OrderItem(
