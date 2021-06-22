@@ -92,13 +92,15 @@ class Products with ChangeNotifier {
     try {
       final response = await http.post(
         url,
-        body: json.encode({
-          'title': product.title,
-          'description': product.description,
-          'price': product.price,
-          'imageUrl': product.imageUrl,
-          'isFavorite': product.isFavorite,
-        }),
+        body: json.encode(
+          {
+            'title': product.title,
+            'description': product.description,
+            'price': product.price,
+            'imageUrl': product.imageUrl,
+            'isFavorite': product.isFavorite,
+          },
+        ),
       );
       final newProduct = Product(
         id: json.decode(response.body)['name'],
@@ -120,12 +122,15 @@ class Products with ChangeNotifier {
       if (productIndex >= 0) {
         final updateUrl = Uri.parse(
             'https://shop-app-8c4b3-default-rtdb.firebaseio.com/products/$id.json');
-        await http.patch(updateUrl, body: {
-          'title': newUpdatedProduct.title,
-          'description': newUpdatedProduct.description,
-          'price': newUpdatedProduct.price,
-          'imageUrl': newUpdatedProduct.imageUrl,
-        });
+        await http.patch(
+          updateUrl,
+          body: {
+            'title': newUpdatedProduct.title,
+            'description': newUpdatedProduct.description,
+            'price': newUpdatedProduct.price,
+            'imageUrl': newUpdatedProduct.imageUrl,
+          },
+        );
         _items[productIndex] = newUpdatedProduct;
         notifyListeners();
       }

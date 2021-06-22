@@ -19,7 +19,7 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
-  bool _showOnlyFavoritesProducts = false;
+  var _showOnlyFavoritesProducts = false;
   Future? _productsFuture;
 
   Future _getProductsFuture() {
