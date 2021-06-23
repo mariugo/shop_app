@@ -31,9 +31,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Products(),
-        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+            create: (ctx) => Products(
+                  Provider.of<Auth>(ctx, listen: false).token!,
+                ),
+            update: (context, auth, previousProducts) {
+              return Products(
+                auth.token!,
+                //previousProducts!.items,
+              );
+            }),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
         ),
@@ -41,21 +48,24 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Orders(),
         ),
       ],
-      child: MaterialApp(
-        title: 'MyShop',
-        theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.orange,
-          fontFamily: 'Open Sans',
+      child: Consumer<Auth>(
+        builder: (context, authData, _) => MaterialApp(
+          title: 'MyShop',
+          theme: ThemeData(
+            primarySwatch: Colors.purple,
+            accentColor: Colors.orange,
+            fontFamily: 'Open Sans',
+          ),
+          home: authData.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          routes: {
+            ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            CartScreen.routeName: (cxt) => CartScreen(),
+            OrdersScreen.routeName: (ctx) => OrdersScreen(),
+            UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen(),
+          },
         ),
-        home: AuthScreen(),
-        routes: {
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-          CartScreen.routeName: (cxt) => CartScreen(),
-          OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
-          EditProductScreen.routeName: (ctx) => EditProductScreen(),
-        },
       ),
     );
   }
