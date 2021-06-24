@@ -35,8 +35,8 @@ class CartItemWidget extends StatelessWidget {
         ),
       ),
       direction: DismissDirection.endToStart,
-      confirmDismiss: (direction) {
-        return showDialog(
+      confirmDismiss: (direction) async {
+        return await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
             title: Text(
