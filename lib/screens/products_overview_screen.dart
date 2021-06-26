@@ -94,9 +94,12 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                     'An error occurred' + dataSnapshot.error.toString(),
                   ),
                 );
-              } else {
-                return ProductsGridWidget(_showOnlyFavoritesProducts);
+                // } else if (!dataSnapshot.hasData) {
+                //   return Center(
+                //     child: Text('Add some products!'),
+                //   );
               }
+              return ProductsGridWidget(_showOnlyFavoritesProducts);
             }),
       ),
     );
